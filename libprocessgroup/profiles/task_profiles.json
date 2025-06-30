@@ -11,6 +11,11 @@
       "File": "foreground/cpus"
     },
     {
+      "Name": "DisplayCPUs",
+      "Controller": "cpuset",
+      "File": "display/cpus"
+    },
+    {
       "Name": "HighCapacityWICPUs",
       "Controller": "cpuset",
       "File": "foreground_window/cpus"
@@ -169,6 +174,19 @@
       ]
     },
     {
+      "Name": "HighNtPerformance",
+      "Actions": [
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpu",
+            "Path": "nt_foreground"
+          }
+        }
+      ]
+    },
+    {
       "Name": "HighPerformanceWI",
       "Actions": [
         {
@@ -254,6 +272,14 @@
           "Params":
           {
             "Controller": "cpu",
+            "Path": "dex2oat"
+          }
+        },
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpuset",
             "Path": "dex2oat"
           }
         }
@@ -431,6 +457,19 @@
       ]
     },
     {
+      "Name": "ProcessNtCapacityHigh",
+      "Actions": [
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpuset",
+            "Path": "nt_foreground"
+          }
+        }
+      ]
+    },
+    {
       "Name": "ProcessCapacityMax",
       "Actions": [
         {
@@ -590,6 +629,49 @@
     },
 
     {
+      "Name": "AudioPolicy",
+      "Actions": [
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpuset",
+            "Path": "foreground"
+          }
+        },
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpu",
+            "Path": "foreground"
+          }
+        },
+      ]
+    },
+
+    {
+      "Name": "DisplayPolicy",
+      "Actions": [
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpuset",
+            "Path": "display"
+          }
+        },
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpu",
+            "Path": "display"
+          }
+        },
+      ]
+    },
+    {
       "Name": "LowMemoryUsage",
       "Actions": [
         {
@@ -723,6 +805,14 @@
     {
       "Name": "InputPolicy",
       "Profiles": [ "RealTimeInputScheduling", "MaxPerformance", "ProcessCapacityMax", "TimerSlackNormal" ]
+    },
+    {
+      "Name": "CPUSET_SP_DISPLAY",
+      "Profiles": [ "HighPerformance", "DisplayPolicy", "HighIoPriority", "TimerSlackNormal" ]
+    },
+    {
+      "Name": "CPUSET_SP_NT_FOREGROUND",
+      "Profiles": [ "HighNtPerformance", "ProcessNtCapacityHigh", "HighIoPriority", "TimerSlackNormal" ]
     }
   ]
 }

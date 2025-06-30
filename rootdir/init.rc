@@ -190,7 +190,7 @@ on init
     chmod 0664 /dev/cpuctl/system/tasks
     chmod 0664 /dev/cpuctl/system-background/tasks
     chmod 0664 /dev/cpuctl/dex2oat/tasks
-    chmod 0664 /dev/cpuctl/cgroup.procs
+    chmod 0755 /dev/cpuctl/cgroup.procs
     chmod 0664 /dev/cpuctl/foreground/cgroup.procs
     chmod 0664 /dev/cpuctl/foreground_window/cgroup.procs
     chmod 0664 /dev/cpuctl/background/cgroup.procs
@@ -210,6 +210,13 @@ on init
     write /dev/cpuctl/nnapi-hal/cpu.uclamp.min 1
     write /dev/cpuctl/nnapi-hal/cpu.uclamp.latency_sensitive 1
 
+    mkdir /dev/cpuctl/nt_foreground
+    chown system system /dev/cpuctl/nt_foreground
+    chown system system /dev/cpuctl/nt_foreground/tasks
+    chown system system /dev/cpuctl/nt_foreground/cgroup.procs
+    chmod 0664 /dev/cpuctl/nt_foreground/tasks
+    chmod 0664 /dev/cpuctl/nt_foreground/cgroup.procs
+
     # Create a cpu group for camera daemon processes
     mkdir /dev/cpuctl/camera-daemon
     chown system system /dev/cpuctl/camera-daemon
@@ -225,6 +232,57 @@ on init
     chown system system /dev/stune/camera-daemon/cgroup.procs
     chmod 0664 /dev/stune/camera-daemon/tasks
     chmod 0664 /dev/stune/camera-daemon/cgroup.procs
+
+    # create a cpuset for dex2oat processes
+    mkdir /dev/cpuset/dex2oat
+    copy /dev/cpuset/cpus /dev/cpuset/dex2oat/cpus
+    copy /dev/cpuset/mems /dev/cpuset/dex2oat/mems
+    chown system system /dev/cpuset/dex2oat
+    chown system system /dev/cpuset/dex2oat/tasks
+    chown system system /dev/cpuset/dex2oat/cgroup.procs
+    chown system system /dev/cpuset/dex2oat/cpus
+    chmod 0775 /dev/cpuset/dex2oat
+    chmod 0775 /dev/cpuset/dex2oat/cgroup.procs
+    chmod 0775 /dev/cpuset/dex2oat/cpus
+    chmod 0775 /dev/cpuset/dex2oat/tasks
+
+    # Display
+    mkdir /dev/cpuset/display
+    copy /dev/cpuset/cpus /dev/cpuset/display/cpus
+    copy /dev/cpuset/mems /dev/cpuset/display/mems
+    chown system system /dev/cpuset/display
+    chown system system /dev/cpuset/display/tasks
+    chown system system /dev/cpuset/display/cgroup.procs
+    chown system system /dev/cpuset/display/cpus
+    chmod 0775 /dev/cpuset/display
+    chmod 0775 /dev/cpuset/display/cgroup.procs
+    chmod 0775 /dev/cpuset/display/cpus
+    chmod 0775 /dev/cpuset/display/tasks
+    mkdir /dev/cpuctl/display
+    chown system system /dev/cpuctl/display
+    chown system system /dev/cpuctl/display/tasks
+    chown system system /dev/cpuctl/display/cgroup.procs
+    chown system system /dev/cpuctl/display/cpu.uclamp.latency_sensitive
+    chown system system /dev/cpuctl/display/cpu.uclamp.max
+    chown system system /dev/cpuctl/display/cpu.uclamp.min
+    chmod 0664 /dev/cpuctl/display/tasks
+    chmod 0664 /dev/cpuctl/display/cgroup.procs
+    chmod 0664 /dev/cpuctl/display/cpu.uclamp.latency_sensitive
+    chmod 0664 /dev/cpuctl/display/cpu.uclamp.max
+    chmod 0664 /dev/cpuctl/display/cpu.uclamp.min
+
+    mkdir /dev/cpuctl/restricted
+    chown system system /dev/cpuctl/restricted
+    chown system system /dev/cpuctl/restricted/tasks
+    chown system system /dev/cpuctl/restricted/cgroup.procs
+    chown system system /dev/cpuctl/restricted/cpu.uclamp.latency_sensitive
+    chown system system /dev/cpuctl/restricted/cpu.uclamp.max
+    chown system system /dev/cpuctl/restricted/cpu.uclamp.min
+    chmod 0664 /dev/cpuctl/restricted/tasks
+    chmod 0664 /dev/cpuctl/restricted/cgroup.procs
+    chmod 0664 /dev/cpuctl/restricted/cpu.uclamp.latency_sensitive
+    chmod 0664 /dev/cpuctl/restricted/cpu.uclamp.max
+    chmod 0664 /dev/cpuctl/restricted/cpu.uclamp.min
 
     # Create an stune group for NNAPI HAL processes
     mkdir /dev/stune/nnapi-hal
@@ -416,23 +474,25 @@ on init
     chown system system /dev/cpuset/restricted/cgroup.procs
     chown system system /dev/cpuset/camera-daemon/cgroup.procs
 
+    mkdir /dev/cpuset/nt_foreground
+    copy /dev/cpuset/cpus /dev/cpuset/nt_foreground/cpus
+    copy /dev/cpuset/mems /dev/cpuset/nt_foreground/mems
+    chown system system /dev/cpuset/nt_foreground
+    chown system system /dev/cpuset/nt_foreground/tasks
+    chown system system /dev/cpuset/nt_foreground/cgroup.procs
+    chown system system /dev/cpuset/nt_foreground/cpus
+
     # set system-background to 0775 so SurfaceFlinger can touch it
     chmod 0775 /dev/cpuset/system-background
     chmod 0775 /dev/cpuset/top-app
-    chmod 0775 /dev/cpuset/dex2oat
     chmod 0775 /dev/cpuset/camera-daemon
     chmod 0775 /dev/cpuset/foreground
     chmod 0775 /dev/cpuset/restricted
     chmod 0775 /dev/cpuset/background
     chmod 0775 /dev/cpuset/foreground_window
-    chmod 0775 /dev/cpuset/audio-app
-    chmod 0775 /dev/cpuset/display
-    chmod 0775 /dev/cpuset/dex2oat
-    chmod 0775 /dev/cpuset/systemserver
 
     # Boost framework
     chmod 0775 /dev/cpuset/top-app/cpus
-    chmod 0775 /dev/cpuset/dex2oat/cpus
     chmod 0775 /dev/cpuset/camera-daemon/cpus
     chmod 0775 /dev/cpuset/foreground/cpus
     chmod 0775 /dev/cpuset/foreground_window/cpus
@@ -440,7 +500,6 @@ on init
     chmod 0775 /dev/cpuset/system-background/cpus
     chmod 0775 /dev/cpuset/background/cpus
     chown system system /dev/cpuset/top-app/cpus
-    chown system system /dev/cpuset/dex2oat/cpus
     chown system system /dev/cpuset/camera-daemon/cpus
     chown system system /dev/cpuset/foreground/cpus
     chown system system /dev/cpuset/foreground_window/cpus
@@ -1406,19 +1465,6 @@ on boot
     write /sys/kernel/mm/transparent_hugepage/khugepaged/pages_to_scan 512
     write /sys/kernel/mm/transparent_hugepage/shmem_enabled "advise"
     write /sys/kernel/mm/transparent_hugepage/defrag "never"
-    write /proc/sys/kernel/sched_pelt_multiplier 2
-    write /proc/sys/vm/vfs_cache_pressure 100
-    write /proc/sys/vm/dirty_background_ratio 3
-    write /proc/sys/vm/dirty_ratio 10
-    write /proc/sys/kernel/sched_rr_timeslice_ms 100
-    # Change sched lib affinity
-    write /proc/vendor_sched/sched_lib_name "UnityMain,libunity.so"
-    write /proc/vendor_sched/prefer_idle_task_name "InputDispatcher,InputReader"
-    # Set priority task name and boost value
-    write /proc/vendor_sched/priority_task_name "ExoPlayer:Place"
-    write /proc/vendor_sched/priority_task_boost_value 742
-    # Disable util-awareness for mids and bigs
-    write /proc/vendor_sched/teo_util_threshold "2 1024 1024"
 
 # Multi-Gen LRU Experiment
 on property:persist.device_config.mglru_native.lru_gen_config=none
@@ -1444,16 +1490,38 @@ on property:sys.snapshotctl.map=requested
 on property:sys.snapshotctl.unmap=requested
     exec - root root system -- /system/bin/snapshotctl unmap
     setprop sys.snapshotctl.unmap "finished"
-  
-on property:sys.boot_completed=1
+
+on property:persist.sys.axion_boot_completed=*
     # write initial cpuset
-    write /dev/cpuset/top-app/cpus ${persist.sys.axion_cpu_unlimit_ui:-0-7}
-    write /dev/cpuset/camera-daemon/cpus ${persist.sys.axion_cpu_unlimit_ui:-0-7}
+    write /dev/cpuset/top-app/cpus ${persist.sys.axion_cpu_all:-0-7}
+    write /dev/cpuset/camera-daemon/cpus ${persist.sys.axion_cpu_all:-0-7}
     write /dev/cpuset/foreground/cpus ${persist.sys.axion_cpu_fg:-0-7}
     write /dev/cpuset/foreground_window/cpus ${persist.sys.axion_cpu_fg:-0-7}
-    write /dev/cpuset/restricted/cpus ${persist.sys.axion_cpu_fg:-0-7}
-    write /dev/cpuset/system-background/cpus ${persist.sys.axion_cpu_bg:-0-2}
+    write /dev/cpuset/nt_foreground/cpus ${persist.sys.axion_cpu_limit_bg:-0-2}
+    write /dev/cpuset/restricted/cpus ${persist.sys.axion_cpu_all:-0-7}
+    write /dev/cpuset/system-background/cpus ${persist.sys.axion_cpu_sys_bg:-0-3}
     write /dev/cpuset/background/cpus ${persist.sys.axion_cpu_bg:-0-2}
+    write /dev/cpuset/display/cpus ${persist.sys.axion_cpu_display:-0-5}
+
+    write /proc/sys/kernel/sched_pelt_multiplier 2
+
+    write /proc/sys/kernel/sched_migration_cost_ns 200000
+
+    write /proc/vendor_sched/latency_ns 10000000
+    write /proc/vendor_sched/min_granularity_ns 3000000
+    write /proc/vendor_sched/enable_hrtick 0
+
+    write /proc/vendor_sched/groups/nnapi/uclamp_min 0
+    
+    write /proc/vendor_sched/groups/bg/uclamp_max 106
+    write /proc/vendor_sched/groups/dex2oat/uclamp_max 106
+    write /proc/vendor_sched/groups/nnapi/uclamp_max 106
+
+    write /sys/block/sda/queue/scheduler kyber
+
+    write /proc/sys/vm/vfs_cache_pressure 100
+    write /proc/sys/vm/dirty_background_ratio 3
+    write /proc/sys/vm/dirty_ratio 10
 
 # Enable bypass charging
 on property:sys.boot_completed=1 && property:persist.sys.battery_bypass_supported=true && property:persist.sys.battery_health_bypass_enabled=true
