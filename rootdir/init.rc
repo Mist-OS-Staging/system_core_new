@@ -1399,6 +1399,27 @@ on property:ro.debuggable=1
 on init && property:ro.debuggable=1 && property:ro.console.enable=1
     start console
 
+on boot 
+    write /proc/sys/vm/page_lock_unfairness 1
+    write /sys/kernel/mm/transparent_hugepage/enabled "madvise"
+    write /sys/kernel/mm/transparent_hugepage/khugepaged/defrag 0
+    write /sys/kernel/mm/transparent_hugepage/khugepaged/pages_to_scan 512
+    write /sys/kernel/mm/transparent_hugepage/shmem_enabled "advise"
+    write /sys/kernel/mm/transparent_hugepage/defrag "never"
+    write /proc/sys/kernel/sched_pelt_multiplier 2
+    write /proc/sys/vm/vfs_cache_pressure 100
+    write /proc/sys/vm/dirty_background_ratio 3
+    write /proc/sys/vm/dirty_ratio 10
+    write /proc/sys/kernel/sched_rr_timeslice_ms 100
+    # Change sched lib affinity
+    write /proc/vendor_sched/sched_lib_name "UnityMain,libunity.so"
+    write /proc/vendor_sched/prefer_idle_task_name "InputDispatcher,InputReader"
+    # Set priority task name and boost value
+    write /proc/vendor_sched/priority_task_name "ExoPlayer:Place"
+    write /proc/vendor_sched/priority_task_boost_value 742
+    # Disable util-awareness for mids and bigs
+    write /proc/vendor_sched/teo_util_threshold "2 1024 1024"
+
 # Multi-Gen LRU Experiment
 on property:persist.device_config.mglru_native.lru_gen_config=none
   write /sys/kernel/mm/lru_gen/enabled 0
@@ -1428,10 +1449,9 @@ on property:sys.boot_completed=1
     # write initial cpuset
     write /dev/cpuset/top-app/cpus ${persist.sys.axion_cpu_unlimit_ui:-0-7}
     write /dev/cpuset/camera-daemon/cpus ${persist.sys.axion_cpu_unlimit_ui:-0-7}
-    write /dev/cpuset/foreground/cpus ${persist.sys.axion_cpu_fg:-0-5}
-    write /dev/cpuset/foreground_window/cpus ${persist.sys.axion_cpu_fg:-0-5}
-    write /dev/cpuset/dex2oat/cpus ${persist.sys.axion_cpu_bg:-0-2}
-    write /dev/cpuset/restricted/cpus ${persist.sys.axion_cpu_bg:-0-2}
+    write /dev/cpuset/foreground/cpus ${persist.sys.axion_cpu_fg:-0-7}
+    write /dev/cpuset/foreground_window/cpus ${persist.sys.axion_cpu_fg:-0-7}
+    write /dev/cpuset/restricted/cpus ${persist.sys.axion_cpu_fg:-0-7}
     write /dev/cpuset/system-background/cpus ${persist.sys.axion_cpu_bg:-0-2}
     write /dev/cpuset/background/cpus ${persist.sys.axion_cpu_bg:-0-2}
 
