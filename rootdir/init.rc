@@ -1534,3 +1534,9 @@ on property:sys.boot_completed=1 && property:persist.sys.battery_bypass_supporte
   write /sys/class/power_supply/battery/input_suspend 0
   write /sys/class/qcom-battery/input_suspend 0
   write /proc/mtk_battery_cmd/current_cmd "0 0"
+
+on property:persist.sys.axion_boot_completed=* && property:persist.sys.axion_gpu_freqs_path=* && property:persist.sys.axion_gpu_minfreq_file=*
+    chown system system ${persist.sys.axion_gpu_freqs_path}
+    chmod 0775 ${persist.sys.axion_gpu_freqs_path}
+    chown system system ${persist.sys.axion_gpu_minfreq_file}
+    chmod 0775 ${persist.sys.axion_gpu_minfreq_file}
