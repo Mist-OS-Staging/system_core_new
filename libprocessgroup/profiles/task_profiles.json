@@ -16,6 +16,11 @@
       "File": "display/cpus"
     },
     {
+      "Name": "AudioCPUs",
+      "Controller": "cpuset",
+      "File": "audio-app/cpus"
+    },
+    {
       "Name": "HighCapacityWICPUs",
       "Controller": "cpuset",
       "File": "foreground_window/cpus"
@@ -732,7 +737,7 @@
           "Params":
           {
             "Controller": "cpuset",
-            "Path": "foreground"
+            "Path": "audio-app"
           }
         },
         {
@@ -909,6 +914,10 @@
     {
       "Name": "CPUSET_SP_NT_FOREGROUND",
       "Profiles": [ "HighNtPerformance", "ProcessNtCapacityHigh", "HighIoPriority", "TimerSlackNormal" ]
-    }
+    },
+    {
+      "Name": "CPUSET_SP_AUDIO",
+      "Profiles": [ "HighPerformance", "AudioPolicy", "HighIoPriority", "TimerSlackNormal" ]
+    },
   ]
 }

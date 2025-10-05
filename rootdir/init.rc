@@ -270,6 +270,31 @@ on init
     chmod 0664 /dev/cpuctl/display/cpu.uclamp.latency_sensitive
     chmod 0664 /dev/cpuctl/display/cpu.uclamp.max
     chmod 0664 /dev/cpuctl/display/cpu.uclamp.min
+    
+    # audio-app
+    mkdir /dev/cpuset/audio-app
+    copy /dev/cpuset/cpus /dev/cpuset/audio-app/cpus
+    copy /dev/cpuset/mems /dev/cpuset/audio-app/mems
+    chown system system /dev/cpuset/audio-app
+    chown system system /dev/cpuset/audio-app/tasks
+    chown system system /dev/cpuset/audio-app/cgroup.procs
+    chown system system /dev/cpuset/audio-app/cpus
+    chmod 0775 /dev/cpuset/audio-app
+    chmod 0775 /dev/cpuset/audio-app/cgroup.procs
+    chmod 0775 /dev/cpuset/audio-app/cpus
+    chmod 0775 /dev/cpuset/audio-app/tasks
+    mkdir /dev/cpuctl/audio-app
+    chown system system /dev/cpuctl/audio-app
+    chown system system /dev/cpuctl/audio-app/tasks
+    chown system system /dev/cpuctl/audio-app/cgroup.procs
+    chown system system /dev/cpuctl/audio-app/cpu.uclamp.latency_sensitive
+    chown system system /dev/cpuctl/audio-app/cpu.uclamp.max
+    chown system system /dev/cpuctl/audio-app/cpu.uclamp.min
+    chmod 0775 /dev/cpuctl/audio-app/tasks
+    chmod 0775 /dev/cpuctl/audio-app/cgroup.procs
+    chmod 0775 /dev/cpuctl/audio-app/cpu.uclamp.latency_sensitive
+    chmod 0775 /dev/cpuctl/audio-app/cpu.uclamp.max
+    chmod 0775 /dev/cpuctl/audio-app/cpu.uclamp.min
 
     mkdir /dev/cpuctl/restricted
     chown system system /dev/cpuctl/restricted
@@ -1506,6 +1531,7 @@ on property:persist.sys.axion_boot_completed=*
     write /dev/cpuset/system-background/cpus ${persist.sys.axion_cpu_sys_bg:-0-3}
     write /dev/cpuset/background/cpus ${persist.sys.axion_cpu_bg:-0-2}
     write /dev/cpuset/display/cpus ${persist.sys.axion_cpu_display:-0-5}
+    write /dev/cpuset/audio-app/cpus ${persist.sys.axion_cpu_audio:-0-5}
 
     write /proc/sys/kernel/sched_pelt_multiplier 4
     write /proc/sys/kernel/sched_util_clamp_min 0
