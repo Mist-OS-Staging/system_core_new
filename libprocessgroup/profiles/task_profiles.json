@@ -282,6 +282,14 @@
             "Controller": "cpuset",
             "Path": "dex2oat"
           }
+        },
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpu",
+            "Path": "system-background"
+          }
         }
       ]
     },
@@ -414,6 +422,14 @@
             "Controller": "cpuset",
             "Path": "background"
           }
+        },
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpu",
+            "Path": "background"
+          }
         }
       ]
     },
@@ -438,6 +454,14 @@
           "Params":
           {
             "Controller": "cpuset",
+            "Path": "foreground"
+          }
+        },
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpu",
             "Path": "foreground"
           }
         }
@@ -466,6 +490,14 @@
             "Controller": "cpuset",
             "Path": "nt_foreground"
           }
+        },
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpu",
+            "Path": "foreground"
+          }
         }
       ]
     },
@@ -477,6 +509,14 @@
           "Params":
           {
             "Controller": "cpuset",
+            "Path": "top-app"
+          }
+        },
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpu",
             "Path": "top-app"
           }
         }
@@ -493,6 +533,14 @@
             "Controller": "cpuset",
             "Path": "system-background"
           }
+        },
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpu",
+            "Path": "system-background"
+          }
         }
       ]
     },
@@ -504,6 +552,14 @@
           "Params":
           {
             "Controller": "cpuset",
+            "Path": "restricted"
+          }
+        },
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpu",
             "Path": "restricted"
           }
         }
@@ -518,6 +574,14 @@
           "Params":
           {
             "Controller": "cpuset",
+            "Path": "camera-daemon"
+          }
+        },
+        {
+          "Name": "JoinCgroup",
+          "Params":
+          {
+            "Controller": "cpu",
             "Path": "camera-daemon"
           }
         }
@@ -666,7 +730,7 @@
           "Params":
           {
             "Controller": "cpu",
-            "Path": "display"
+            "Path": "top-app"
           }
         },
       ]
