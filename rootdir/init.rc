@@ -1511,8 +1511,8 @@ on property:persist.sys.axion_boot_completed=*
 
     write /proc/sys/kernel/sched_migration_cost_ns 200000
 
-    write /proc/vendor_sched/latency_ns 4000000
-    write /proc/vendor_sched/min_granularity_ns 400000
+    write /proc/vendor_sched/latency_ns 24000000
+    write /proc/vendor_sched/min_granularity_ns 3000000
     write /proc/vendor_sched/enable_hrtick 0
 
     write /proc/vendor_sched/groups/nnapi/uclamp_min 0
